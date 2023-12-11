@@ -1,0 +1,39 @@
+﻿@page "/localidades"
+@inject ApplicationDbContext _context
+
+<h1>Localidades</h1>
+<a href="localidades/create" class="btn btn-primary"><i class="oi oi-plus"></i>Nova</a>
+<table class="table">
+	<thead>
+		<tr>
+			<td>Id</td>
+			<td>Estado</td>
+			<td>Cidade</td>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach(var localidade in _localidades)
+		{
+			<tr>
+				<td>@localidade.Id</td>
+				<td>@localidade.State</td>
+				<td>@localidade.City</td>
+			</tr>
+		}
+	</tbody>
+
+
+</table>
+
+@code {
+	List<Localidade> _localidades = new();
+
+	protected override async Task OnInitializedAsync()
+	{
+		_localidades = await _context.IBGE
+						.AsNoTracking()
+						.ToListAsync();
+
+	}
+
+}

@@ -53,9 +53,11 @@
 	{
 		try
 		{
+			/*
 			_model.Id = "12345";
 			_model.State = "PE";
 			_model.City = "Recife2";
+			*/
 			await _context.IBGE.AddAsync(_model);
 			await _context.SaveChangesAsync();
 			_navigationManager.NavigateTo("/localidades");

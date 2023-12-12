@@ -1,0 +1,70 @@
+﻿@page "/localidades/edit/{id}"
+
+@inject ApplicationDbContext _context
+@inject NavigationManager _navigationManager
+
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+<h1>Editar @_model.Id</h1>
+
+<EditForm FormName="frmEdit" Model="_model" OnValidSubmit="@HandleSubmitAsync">
+	@* <DataAnnotationsValidator />
+	<ValidationSummary /> *@
+
+	<div class="mb-3">
+		<label for="txtState" class="form-label">Estado</label>
+		<InputText class="form-control" type="text" id="txtState" @bind-Value="_model.State" />
+	</div>
+	<div class="mb-3">
+		<label for="txtCity" class="form-label">Cidade</label>
+		<InputText class="form-control" type="text" id="txtCity" @bind-Value="_model.City" />
+	</div>
+
+	<div>
+		@if (!String.IsNullOrEmpty(_errorMessage))
+		{
+			<div class="alert alert-danger" role="alert">
+				@_errorMessage
+			</div>
+		}
+	</div>
+	<button class="btn btn-success" type="submit">
+		Salvar
+	</button>
+</EditForm>
+
+@code {
+	[Parameter]
+	public string? Id { get; set; }
+
+	Localidade? _model = new();
+	string? _errorMessage = null;
+
+	protected override async Task OnInitializedAsync()
+	{
+		_model = await _context.IBGE.AsNoTracking().FirstOrDefaultAsync(l => l.Id.Equals(Id));
+	}
+
+	async Task HandleSubmitAsync()
+	{
+		try
+		{
+			var localidade = await _context.IBGE.FirstOrDefaultAsync(l => l.Id.Equals(_model.Id));
+			if (localidade is null)
+				throw new Exception("Localidade não encontrada");
+
+			localidade.Id = _model.Id;
+			localidade.City = _model.City;
+			localidade.State = _model.State;
+			_context.IBGE.Update(localidade);
+			await _context.SaveChangesAsync();
+			_navigationManager.NavigateTo("/localidades");
+		}
+		catch (Exception ex)
+		{
+			_errorMessage = ex.ToString();
+		}
+	}
+}

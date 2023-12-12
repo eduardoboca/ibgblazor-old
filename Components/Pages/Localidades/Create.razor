@@ -1,0 +1,64 @@
+﻿@page "/localidades/create"
+@inject ApplicationDbContext _context
+@inject NavigationManager _navigationManager
+
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+<h1>Nova Localidade</h1>
+<EditForm FormName = "frmCreate" Model="_model"  OnValidSubmit="@HandleSubmitAsync">
+@* 	<DataAnnotationsValidator />
+	<ValidationSummary /> *@
+
+	<div class ="mb-3">
+		<label for="txtId" class="form-label">ID</label>
+		<InputText class="form-control" type="text" id="txtId" @bind-Value="_model.Id"></InputText>
+	</div>
+	<div class="mb-3">
+		<label for="txtState" class="form-label">Estado</label>
+		<InputText class="form-control" type="text" id="txtState" @bind-Value="_model.State"></InputText>
+	</div>
+	<div class="mb-3">
+		<label for="txtCity" class="form-label">Cidade</label>
+		<InputText class="form-control" type="text" id="txtCity" @bind-Value="_model.City"></InputText> 
+	</div>
+
+	<div>
+		@if (!String.IsNullOrEmpty(_errorMessage))
+		{
+			<div class="alert alert-danger" role="alert">
+				@_errorMessage
+			</div>
+		}
+	</div>
+	<button class="btn btn-success" type="submit">
+		Salvar
+	</button>
+</EditForm>
+
+@code {
+	Localidade _model = new();
+	string? _errorMessage = null;
+	// private List<string?> _states = new();
+
+	protected override async Task OnInitializedAsync()
+	{
+		//_states = await _context.IBGE.Select(l => l.State).Distinct().AsNoTracking().ToListAsync(); 
+		//_model.State = "PE";
+	}
+
+	async Task HandleSubmitAsync()
+	{
+		try
+		{
+			await _context.IBGE.AddAsync(_model);
+			await _context.SaveChangesAsync();
+			_navigationManager.NavigateTo("/localidades");
+		}
+		catch 
+		{
+			_errorMessage = "Falha ao persistir os dados";
+		}
+	}
+}

@@ -1,0 +1,23 @@
+﻿@page "/localidades"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject IBGBlazor.Data.ApplicationDbContext DB
+@using IBGBlazor.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="localidades/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.IBGE">
+    <PropertyColumn Property="localidade => localidade.State" />
+    <PropertyColumn Property="localidade => localidade.City" />
+
+    <TemplateColumn Context="localidade">
+        <a href="@($"localidades/edit?id={localidade.Id}")">Edit</a> |
+        <a href="@($"localidades/details?id={localidade.Id}")">Details</a> |
+        <a href="@($"localidades/delete?id={localidade.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>

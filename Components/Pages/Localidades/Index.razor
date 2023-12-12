@@ -1,6 +1,10 @@
 ﻿@page "/localidades"
 @inject ApplicationDbContext _context
 
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
 <h1>Localidades</h1>
 <a href="localidades/create" class="btn btn-primary"><i class="oi oi-plus"></i>Nova</a>
 <table class="table">

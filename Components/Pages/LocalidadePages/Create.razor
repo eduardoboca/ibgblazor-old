@@ -5,9 +5,8 @@
 
 <PageTitle>Create</PageTitle>
 
-<h1>Create</h1>
+<h1>Nova Localidade</h1>
 
-<h4>Localidade</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,22 +14,35 @@
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" />
             <div class="mb-3">
-                <label for="state" class="form-label">State:</label> 
-                <InputText id="state" @bind-Value="Localidade.State" class="form-control" /> 
-                <ValidationMessage For="() => Localidade.State" class="text-danger" /> 
-            </div>        
+                <label for="state" class="form-label">Id:</label>
+                <InputText id="id" @bind-Value="Localidade.Id" class="form-control" />
+                <ValidationMessage For="() => Localidade.Id" class="text-danger" />
+            </div>
             <div class="mb-3">
-                <label for="city" class="form-label">City:</label> 
-                <InputText id="city" @bind-Value="Localidade.City" class="form-control" /> 
-                <ValidationMessage For="() => Localidade.City" class="text-danger" /> 
-            </div>        
-            <button type="submit" class="btn btn-primary">Create</button>
+                <label for="state" class="form-label">Estado:</label>
+                <InputText id="state" @bind-Value="Localidade.State" class="form-control" />
+                <ValidationMessage For="() => Localidade.State" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="city" class="form-label">Cidade:</label>
+                <InputText id="city" @bind-Value="Localidade.City" class="form-control" />
+                <ValidationMessage For="() => Localidade.City" class="text-danger" />
+            </div>
+            <div>
+                @if (!String.IsNullOrEmpty(errorMsg))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @errorMsg
+                    </div>
+                }
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
         </EditForm>
     </div>
 </div>
 
 <div>
-    <a href="/localidades">Back to List</a>
+    <a href="/localidades">Voltar</a>
 </div>
 
 @code {
@@ -38,11 +50,19 @@
     [SupplyParameterFromForm]
     public Localidade Localidade { get; set; } = new();
 
+    private string? errorMsg = null;
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task AddLocalidade()
     {
-        DB.IBGE.Add(Localidade);
-        await DB.SaveChangesAsync();
-        NavigationManager.NavigateTo("/localidades");
+        try
+        {
+            DB.IBGE.Add(Localidade);
+            await DB.SaveChangesAsync();
+            NavigationManager.NavigateTo("/localidades");
+        }
+        catch (Exception ex)
+        {
+            errorMsg = $"Erro ao persistir dados: {ex.ToString()}";
+        }
     }
 }

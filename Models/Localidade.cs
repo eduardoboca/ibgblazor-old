@@ -6,13 +6,16 @@ namespace IBGBlazor.Models
     public class Localidade
     {
         [Key]
+        [Required(ErrorMessage = "Id é obrigatório")]
         [Column(TypeName = "char(7)")]
         public string Id { get; set; }
 
-		[Column(TypeName = "char(2)")]
+        [Required(ErrorMessage = "Estado é obrigatório")]
+        [Column(TypeName = "char(2)")]
         public string? State { get; set; }
 
-		[Column(TypeName = "nvarchar(80)")]
+        [Required(ErrorMessage = "Cidade é obrigatório")]
+        [Column(TypeName = "nvarchar(80)")]
         public string? City { get; set; }
     }
 }

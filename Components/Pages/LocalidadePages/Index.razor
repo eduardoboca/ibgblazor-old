@@ -3,21 +3,21 @@
 @inject IBGBlazor.Data.ApplicationDbContext DB
 @using IBGBlazor.Models
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Localidades</PageTitle>
 
 <h1>Index</h1>
 
 <p>
-    <a href="localidades/create">Create New</a>
+    <a href="localidades/create">Nova</a>
 </p>
 
 <QuickGrid Class="table" Items="DB.IBGE">
+    <PropertyColumn Property="localidade => localidade.Id" />
     <PropertyColumn Property="localidade => localidade.State" />
     <PropertyColumn Property="localidade => localidade.City" />
 
     <TemplateColumn Context="localidade">
-        <a href="@($"localidades/edit?id={localidade.Id}")">Edit</a> |
-        <a href="@($"localidades/details?id={localidade.Id}")">Details</a> |
-        <a href="@($"localidades/delete?id={localidade.Id}")">Delete</a>
+        <a href="@($"localidades/edit?id={localidade.Id}")">Editar</a> |
+        <a href="@($"localidades/delete?id={localidade.Id}")">Apagar</a>
     </TemplateColumn>
 </QuickGrid>

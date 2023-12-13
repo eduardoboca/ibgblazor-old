@@ -54,15 +54,16 @@
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task AddLocalidade()
     {
-        try
+        //try
+        //{
+        DB.IBGE.Add(Localidade);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/localidades/edit?id=123456");
+        //}
+        /*catch (Exception ex)
         {
-            DB.IBGE.Add(Localidade);
-            await DB.SaveChangesAsync();
-            NavigationManager.NavigateTo("/localidades");
+        errorMsg = $"Erro ao persistir dados: {ex.ToString()}";
         }
-        catch (Exception ex)
-        {
-            errorMsg = $"Erro ao persistir dados: {ex.ToString()}";
-        }
+        */
     }
 }

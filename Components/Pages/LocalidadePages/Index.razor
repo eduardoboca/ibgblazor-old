@@ -9,7 +9,7 @@
 <h1>Localidades</h1>
 
 <p>
-    <a href="localidades/create">Nova</a>
+    <a class="btn btn-primary" href="localidades/create">Nova</a>
 </p>
 
 <QuickGrid Class="table" Items="@localidadesFilterQueryable" @ref="refgrid" Pagination="@pagination">
@@ -38,16 +38,15 @@
         </ColumnOptions>
     </PropertyColumn>
 
-
     <TemplateColumn Context="localidade">
-        <a href="@($"localidades/edit?id={localidade.Id}")">Editar</a> |
-        <a href="@($"localidades/delete?id={localidade.Id}")">Apagar</a>
+        <a class="btn btn-primary btn-sm" href="@($"localidades/edit?id={localidade.Id}")">Editar</a>
+        <a class="btn btn-danger btn-sm" href="@($"localidades/delete?id={localidade.Id}")">Apagar</a>
     </TemplateColumn>
 </QuickGrid>
 
 <div class="page-size-chooser">
     Itens por página:
-    <select @bind="@pagination.ItemsPerPage">
+    <select @bind="@pagination.ItemsPerPage" class="form-select" style="width: auto;">
         <option>10</option>
         <option>20</option>
         <option>30</option>
@@ -90,5 +89,4 @@
     {
         localidadesFilterQueryable = localidadesQueryable!.Where(l => l.City.Contains(args.Value.ToString()));
     }
-
 }

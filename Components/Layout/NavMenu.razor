@@ -25,7 +25,7 @@
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
-                    <form action="Account/Logout" method="post">
+                    <form action="Account/Logout" @onsubmit="Logout" method="post">
                         <AntiforgeryToken />
                         <input type="hidden" name="ReturnUrl" value="@currentUrl" />
                         <button type="submit" class="nav-link">
@@ -57,6 +57,11 @@
     {
         currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void Logout()
+    {
+        NavigationManager.NavigateTo("/Account/Login");
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)

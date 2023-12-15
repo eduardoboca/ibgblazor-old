@@ -1,8 +1,13 @@
-﻿@page "/localidades"
+@page "/localidades"
+
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using IBGBlazor.Models
+@using Microsoft.AspNetCore.Authorization
+
 @inject IBGBlazor.Data.ApplicationDbContext DB
 @rendermode InteractiveServer
+
+@attribute [Authorize]
 
 <PageTitle>Localidades</PageTitle>
 
